@@ -76,14 +76,21 @@ server.get('/api/users', protected, (req, res) => {
 
 //implement the proctected middlewar that will check for user name and password
 //in the headers and if valid provide access to the endpoint
-function protected() {
+function protected(req, res, next) {
 
-  const { password, user } = req.headers.authorization;
-  if (user && bcrypt.compareSync(password, user.password)) {
-    next()
-  } else {
-    res.status(401).json({ message: 'wrong password' })
+  let { username, password } = req.headers;
+  if (username && password) {
+    Users.findBy({ username })
+      .first()
+      .then(user => {
+        if (user && bcrypt.compareSync(password, user.password)) {
+          next()
+        } else {
+          res.status(401).json({ message: 'wrong password' })
+        }
+      })
   }
+
 
 }
 
