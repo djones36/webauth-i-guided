@@ -15,14 +15,28 @@ server.get('/', (req, res) => {
 
   res.send("It's alive!");
 });
-server.get('/has', (req, res) => {
+server.get('/hash', (req, res) => {
   const password = req.headers.authorization;
-  const hash = bcrypt.hashSync(password, 12);
-  res.status(200).json({ hash })
+  if (password) {
+    const hash = bcrypt.hashSync(password, 12);
+    res.status(200).json({ hash })
+  } else {
+    res.status(400).json({ message: 'please provide password' })
+  }
+
 })
 
 server.post('/api/register', (req, res) => {
   let user = req.body;
+
+  //validate the user
+
+
+  //hash the password
+  const hash = bcrypt.hashSync(user.password, 12);
+
+  //we override the password with the hash
+  user.password = hash;
 
   Users.add(user)
     .then(saved => {
