@@ -12,8 +12,8 @@ server.use(express.json());
 server.use(cors());
 
 server.get('/', (req, res) => {
-  const
-    res.send("It's alive!");
+  const password = req.headers.authorization;
+  res.send("It's alive!");
 });
 
 server.post('/api/register', (req, res) => {
