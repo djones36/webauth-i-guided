@@ -12,9 +12,14 @@ server.use(express.json());
 server.use(cors());
 
 server.get('/', (req, res) => {
-  const password = req.headers.authorization;
+
   res.send("It's alive!");
 });
+server.get('/has', (req, res) => {
+  const password = req.headers.authorization;
+  const hash = bcrypt.hashSync(password, 12);
+  res.status(200).json({ hash })
+})
 
 server.post('/api/register', (req, res) => {
   let user = req.body;
