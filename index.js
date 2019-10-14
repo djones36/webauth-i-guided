@@ -12,7 +12,8 @@ server.use(express.json());
 server.use(cors());
 
 server.get('/', (req, res) => {
-  res.send("It's alive!");
+  const
+    res.send("It's alive!");
 });
 
 server.post('/api/register', (req, res) => {
